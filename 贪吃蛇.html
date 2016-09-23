@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <style>
+        #box{
+            width:461px;
+            height:461px;
+            position: absolute;
+            border:2px solid #000;
+            left:460px;
+            top:100px;
+            border-radius:5px;
+            background:url(img/game.jpg) no-repeat center center;
+        }
+        .wall{
+            width:10px;
+            height:10px;
+            background:black;
+            position: absolute;
+        }
+        .lineRow{
+            display: block;
+            width:600px;
+            height:1px;
+            position:absolute;
+            background:#000;
+            opacity: 0.2;
+            filter:alpha(opacity=20);
+        }
+        .lineCol{
+            display: block;
+            width:1px;
+            height:500px;
+            position:absolute;;
+            background:#000;
+            opacity: 0.2;
+            filter:alpha(opacity=20);
+        }
+        .snack,.food,.otherFood{
+            width:10px;
+            height:10px;
+            background:brown;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 1px;
+            position:absolute;
+        }
+        .food{
+            background:red;
+        }
+        .menu{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            width:160px;
+            height:465px;
+            background:url(img/game.jpg) no-repeat center center;
+            position:absolute;
+            left:300px;
+            top:100px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+        }
+        .goal{
+            overflow:hidden;
+            display: inline-block;
+            color:#fff;
+            font-size:20px;
+            text-align:center;
+            width: 50%;
+            height:60px;
+            line-height:60px;
+            background:rgba(43,56,90,0.5);
+            box-shadow:inset 0px 0px 3px 3px black;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+        }
+        #start,#pause,#restart{
+            width:100%;
+            height:59px;
+            text-align:center;
+            font-size: 24px;
+            line-height:59px;
+            background:rgba(43,56,90,0.5);
+            box-shadow:inset 0px 0px 2px 2px black;
+            color:#fff;
+            margin-top: 4px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+        }
+        .rank{
+            height: 213px;
+            width:100%;
+            position:relative;
+        }
+        #add,#reduce,#nandu{
+            width:30px;
+            height:30px;
+            background:#000;
+            position: absolute;
+            border-radius: 5px;
+            left:10px;
+            color:#fff;
+            font-size:24px;
+            line-height:30px;
+            text-align:center;
+            top:20px;
+        }
+        #nandu{
+            width:60px;
+            font-size: 16px;
+            left:50px;
+        }
+        #add{
+            left:120px;
+        }
+        #gameover{
+            width:280px;
+            height:160px;
+            background:lightgreen;
+            position: absolute;
+            left:560px;
+            top:240px;
+            padding-top:50px;
+            border-radius:5px;
+            display: none;
+        }
+        #gameover div{
+            width:280px;
+            height:60px;
+            color:red;
+            font-size:28px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #start,#pause,#restart,#add,#reduce:hover{
+            cursor:pointer;
+        }
+        .score_1{
+            position:absolute;
+            width:100%;
+            height:30px;
+            color:#fff;
+            background-color:rgba(12,8,4,0.5);
+            top:80px;
+            line-height:30px;
+            font-size:24px;
+            text-align:center;
+        }
+        #tall_h{
+            top:110px;
+            overflow:hidden;
+        }
+        .otherFood{
+            background:white;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        贪食蛇游戏，注意，当吃到白色的会加速。
+        <div class="menu">
+            <span class="goal">得分：</span><span class="goal" id="goal">0</span>
+            <div class="rank">
+                <div id="reduce">-</div><div id="nandu"><span>等级:</span><span id="rankCount">1</span></div><div id="add">+</div>
+                <div class="score_1">历史最高分:</div><div class="score_1" id="tall_h">0</div>
+            </div>
+            <div id="start">开始</div>
+            <div id="pause">暂停</div>
+            <div id="restart">重新开始</div>
+        </div>
+        <div id="box">
+            <!-- 游戏界面-->
+        </div>
+        <div id="gameover">
+            <div>游戏结束</div>
+            <div><span>得分：</span><span id="allGoal">0</span></div>
+        </div>
+    </div>
+
+    <script>
+
+        window.onload = function(){
+            const SNACK = 2,WALL = 1,SPACE = 0,FOOD = 3;//类型
+            var score = 0;//得分
+            var countF = 0;
+            var isOther = false;//判断是否为其他食物
+            var food; //div,产生的食物
+            var food2=document.createElement("div");
+            var isCanMove = true;//用来处理暂停开始的开关
+            var isStart = false;//是否正在走
+            var goal = document.getElementById("goal");//得分
+            var box = document.getElementById("box");//游戏界面
+            var startBtn = document.getElementById("start");//开始
+            var pauseBtn = document.getElementById("pause");//暂停
+            var restartBtn = document.getElementById("restart");//重新开始
+            var over = document.getElementById("gameover");//游戏结束
+            var addRank = document.getElementById("add");//增加等级
+            var reduceRank = document.getElementById("reduce");//降低等级
+            var rankCount = document.getElementById("rankCount");//等级数
+            var tall_h = document.getElementById("tall_h");//历史最高分
+            var arr=[];//目前还没用到，如果需要关卡，启用这个数组
+            var snackDiv=[];//玩家：蛇
+            var wallArr = [];//墙
+            var timer;//定时器
+            var isOver = true;//游戏是否结束；
+            //
+            var dir = "top";//移动方向，默认向上
+            var step = -11;//移动步长
+            var speedTime = 240;//移动的速度，取值越小越快
+            //
+
+            //
+            initGame();
+            rank();
+            setHistory();
+            //更新历史最高分到界面上
+            function setHistory(){
+                var hist = window.localStorage.getItem("hist");
+                if(hist!=null){
+                    tall_h.innerHTML = hist;
+                }
+            }
+            //加速
+            function addSpeed(){
+                var r = parseInt(rankCount.innerHTML);
+                if(r>=10){
+                    rankCount.innerHTML = 10+"";
+                    speedTime = 40;
+                }else{
+                    r++;
+                    rankCount.innerHTML = r+"";
+                    speedTime -=20;
+                }
+                if(isOver){
+                    return;
+                }
+                run();
+            }
+            //减速
+            function reduceSpeed(){
+                var r = parseInt(rankCount.innerHTML);
+                if(r<=1){
+                    rankCount.innerHTML = 1+"";
+                    speedTime=240;
+                }else{
+                    r--;
+                    rankCount.innerHTML = r+"";
+                    speedTime+=20;
+                }
+                if(isOver){
+                    return;
+                }
+                run();
+            }
+            //速度等级
+            function rank(){
+                addRank.onclick = function(){
+                    addSpeed();
+                }
+                reduceRank.onclick = function (){
+                    reduceSpeed();
+                }
+            }
+            //初始化游戏
+            function initGame(){
+                init();
+                bindMenu();
+            }
+            //开始
+            function start(){
+
+                keyListener();//添加键盘监听事件
+                createFood();
+                run();
+            }
+            //启动
+            function run(){
+                clearInterval(timer);
+                timer = setInterval(function(){
+                    if(isCanMove){
+                        //后面的全部跟着前一个走，只改变位置
+                        for(var i = snackDiv.length-1;i>=1;i--){
+                            snackDiv[i].style.left = parseInt(getStyle(snackDiv[i-1],"left")) +"px";
+                            snackDiv[i].style.top = parseInt(getStyle(snackDiv[i-1],"top")) +"px";
+                        }
+                        //第一个
+                        var first = parseInt(getStyle(snackDiv[0],dir)) + step;
+                        snackDiv[0].style[dir] = first +"px";
+                        checkCollision();//碰撞检测。
+                    }
+                },speedTime);
+            }
+            //食物是否出现在蛇身上
+            function appearInSnack(x,y){
+                var isAppear = false;
+                for (var i = 0; i < snackDiv.length; i++) {
+                    var snack_body_left = parseInt(getStyle(snackDiv[i], "left"));
+                    var snack_body_top = parseInt(getStyle(snackDiv[i], "top"));
+                    if (Math.abs(x - snack_body_left) < 6 || Math.abs(y - snack_body_top) < 6) {
+                        isAppear = true;
+                        break;
+                    }
+                }
+                return isAppear;
+            }
+            //创建食物
+            function createFood(){
+
+                var x = Math.floor(Math.random()*40+1)*11 + 1;
+                var y = Math.floor(Math.random()*40+1)*11 + 1;
+                //判断食物是否在蛇身上
+                while(appearInSnack(x,y)) {//出现时一直循环
+                    x = Math.floor(Math.random()*40+1)*11 + 1;
+                    y = Math.floor(Math.random()*40+1)*11 + 1;
+                }
+                //产生另一种食物
+                countF++;
+                if(countF>=4){
+                    isOther = true;
+                    food2 = document.createElement("div");
+                    food2.type = FOOD;
+                    food2.className = "otherFood";
+                    food2.style.left =x +"px";
+                    food2.style.top = y + "px";
+                    box.appendChild(food2);
+                    countF=0;
+                }
+                var x = Math.floor(Math.random()*40+1)*11 + 1;
+                var y = Math.floor(Math.random()*40+1)*11 + 1;
+                //判断食物是否在蛇身上
+                while(appearInSnack(x,y)) {//出现时一直循环
+                    x = Math.floor(Math.random()*40+1)*11 + 1;
+                    y = Math.floor(Math.random()*40+1)*11 + 1;
+                }
+                food = document.createElement("div");
+                food.type = FOOD;
+                food.className="food";
+                food.style.left =x +"px";
+                food.style.top = y + "px";
+                box.appendChild(food);
+
+                //创建另一种食物
+            }
+            //键盘事件监听
+            function keyListener(){
+                document.onkeydown = function(event){
+                    switch (event.keyCode){
+                        case 37:
+                            //left
+                            if(dir!="left"){
+                                dir = "left";
+                                if(step>0){
+                                    step = -step;
+                                }
+                            }
+                            break;
+                        case 38:
+                            //up
+                            if(dir!="top"){
+                                dir = "top";
+                                if(step>0){
+                                    step = -step;
+                                }
+                            }
+                            break;
+                        case 39:
+                            //right
+                            if(dir!="left"){
+                                dir = "left";
+                                if(step<0){
+                                    step = -step;
+                                }
+                            }
+
+                            break;
+                        case 40:
+                            //down
+                            if(dir!="top"){
+                                dir = "top";
+                                if(step<0){
+                                    step = -step;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            //检测碰撞
+            function checkCollision(){
+                var L = parseInt(getStyle(snackDiv[0],"left"));//蛇头的left值
+                var T = parseInt(getStyle(snackDiv[0],"top"));//蛇头的top值
+                //检测是否撞到墙
+                for(var i = 0;i<wallArr.length;i++){
+                    var wall_L = parseInt(getStyle(wallArr[i],"left"));
+                    var wall_T = parseInt(getStyle(wallArr[i],"top"));
+                    if(Math.abs(L-wall_L)<6 &&Math.abs(T-wall_T)<6){
+                        gameover();//游戏结束
+                    }
+                }
+                //检测是否咬到自己
+                for(var i = 1;i<snackDiv.length;i++){
+                    var snack_body_left = parseInt(getStyle(snackDiv[i],"left"));
+                    var snack_body_top = parseInt(getStyle(snackDiv[i],"top"));
+                    if(Math.abs(snack_body_left-L)<6 && Math.abs(snack_body_top-T)<6){
+                        gameover();//游戏结束
+                    }
+                }
+                //判断是否吃到食物
+                eatFood(food);
+                eatFood(food2);
+
+            }
+            //判断是否吃到食物
+            function eatFood(food){
+                var L = parseInt(getStyle(snackDiv[0],"left"));//蛇头的left值
+                var T = parseInt(getStyle(snackDiv[0],"top"));//蛇头的top值
+                var food_Left = parseInt(getStyle(food,"left"));
+                var food_top = parseInt(getStyle(food,"top"));
+                if(Math.abs(food_Left-L)<6 && Math.abs(food_top-T)<6){
+                    gameGoal();//游戏得分。
+                    var flag = true;
+                    if(food.className=="otherFood"){
+                        addSpeed();//吃到白色的加速
+                        flag=false;
+                    }
+                    food.type = SNACK;
+                    food.className = "snack";
+                    snackDiv.push(food);
+                    if(flag){
+                        createFood();
+                    }
+                }
+            }
+            //游戏得分
+            function gameGoal(){
+                score += 100;
+                goal.innerHTML = score;
+            }
+            //游戏结束
+            function gameover(){
+
+                var allGoal = document.getElementById("allGoal");
+                allGoal.innerHTML = goal.innerHTML;
+                over.style.display="block";
+                clearInterval(timer);
+                isOver = true;
+                storeage(parseInt(goal.innerHTML));//存储最高分
+            }
+            //菜单事件
+            function bindMenu(){
+                //开始
+                startBtn.onclick = function(){
+                    if(!isStart){
+                        isStart = true;
+                        over.style.display="none";
+                        start();
+                        isOver = false;
+                    }
+                }
+                //暂停
+                pauseBtn.onclick=function() {
+                    if (isCanMove) {
+                        pauseBtn.innerHTML = "继续";
+                        isCanMove = false;
+                    } else {
+                        pauseBtn.innerHTML = "暂停";
+                        isCanMove = true;
+                    }
+
+                }
+                //重新开始
+                restartBtn.onclick = function(){
+                    clearInterval(timer);
+                    initGame();//初始化游戏
+                    isStart = true;
+                    over.style.display="none";
+                    start();
+                    isOver = false;
+                }
+            }
+            //初始化
+            function init(){
+                isStart = false;
+                box.innerHTML="";
+                arr=[];
+                snackDiv=[];//
+                wallArr = [];
+                dir = "top";
+                step = -11;
+                score = 0;
+                isOver = true;//游戏已经结束
+
+                var fragment = document.createDocumentFragment();
+                for(var i=0;i<42;i++){
+                    var temp=[];
+                    //横线
+                    var span = document.createElement("span");
+                    span.className = "lineRow";
+                    span.style.left="0px";
+                    span.style.top = i*11+"px";
+                    fragment.appendChild(span);
+                    for(var j=0;j<42;j++){
+                        //竖线
+                        if(i==0){
+                            var span = document.createElement("span");
+                            span.className = "lineCol";
+                            span.style.left=j*11+"px";
+                            span.style.top ="0px";
+                            fragment.appendChild(span);
+                        }
+                        //墙壁
+                        if(i==0 || j==0 || i==41 || j==41){
+                            var div = document.createElement("div");
+                            div.style.left =1+ j*11 +"px";
+                            div.style.top = 1+i*11 + "px";
+                            div.className = "wall";
+                            fragment.appendChild(div);
+                            temp[j]=WALL;
+                            div.type = WALL;
+                            wallArr.push(div);
+                        }else{
+                            temp[j]=SPACE;
+                        }
+                        //创建玩家
+                        if(i>=37 && i!=41){
+                            if(j==20){
+                                var div = document.createElement("div");
+                                div.className="snack";
+                                div.style.left =1+ j*11 +"px";
+                                div.style.top = 1+i*11 + "px";
+                                fragment.appendChild(div);
+                                temp[j]=SNACK;
+                                div.type = SNACK;//标记类型
+                                snackDiv.push(div);
+                            }
+                        }
+                    }
+                    arr[i] = temp;
+                }
+                box.appendChild(fragment);
+            }
+            //存取最高分
+            function storeage(currentScore){
+                //本地存储数据
+                var hist = window.localStorage.getItem("hist");
+                if(hist!=null){//已经存在数据
+                    hist = parseInt(hist);
+                    if(currentScore >= hist){
+                        window.localStorage.setItem("hist",currentScore);
+                        setHistory();
+                    }
+                }else{//本地没有数据
+                    window.localStorage.setItem("hist",currentScore);
+                    setHistory();
+                }
+            }
+
+
+            function getStyle(dom,styleName){
+                if(dom.currentStyle){
+                    return dom.currentStyle[styleName];
+                }else{
+                    return window.getComputedStyle(dom,false)[styleName];
+                }
+            }
+        }
+    </script>
+</body>
+</html>

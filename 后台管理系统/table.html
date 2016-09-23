@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="css/table.css">
+	<script type="text/javascript">
+		window.onload=function(){
+         var all=document.getElementById("all");
+         var radio=document.getElementsByName("radio");
+         all.onclick=function(){                      
+               for (var i = 0; i < radio.length; i++) {
+                  radio[i].checked=all.checked;
+               }
+         }
+         for (var i = 0; i < radio.length; i++) {
+                  radio[i].onclick=function(){
+                     if (!this.checked) {
+                        all.checked=this.checked;
+                     }
+                  }
+            }
+         
+      }
+	</script>
+</head>
+<body>
+   <table>
+        <tr class="pan">
+           <td colspan="8">
+               <a href="#" class="del"></a>
+               <a href="#" class="add"></a>
+           </td>
+        </tr>
+   		<tr>
+   			<td><input type="checkbox" name="" id="all" />全选</td>
+   			<td>设备类型</td>
+   			<td>设备名称</td>
+   			<td>设备编号</td>
+   			<td>创建日期</td>
+   			<td>设备状态</td>
+   			<td>是否共享</td>
+   			<td>修改</td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   		<tr>
+   		    <td><input type="checkbox" name="radio"/></td>
+   			<td>网络视频摄像头</td>
+   			<td>camera001</td>
+   			<td>2016894</td>
+   			<td>2016-01-28</td>
+   			<td><a href="#" class="state"></a></td>
+   			<td><a href="#" class="share"></a></td>
+   			<td><a href="#" class="xiugai"></a></td>
+   		</tr>
+   </table>
+   <div class="sepre">
+   	   <p class="shu">共有20条数据，当前第一页</p>
+   	    <div class="ye">
+   	   		<a href="#">首页</a>
+   	   		<span class="num">
+   	   		<a href="#">1</a>
+   	   		<a href="#">2</a>
+   	  		<a href="#">3</a>
+   	  		</span>
+   	  		<a href="#">下一页</a>
+   	  		<a href="#">尾页</a>
+   	   </div>
+   </div>
+</body>
+</html>

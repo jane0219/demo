@@ -1,0 +1,100 @@
+body,html{
+	height: 100%;
+}
+table{
+   
+	margin-top: 50px;
+	width: 100%;
+	border: 1px solid #d6d6d6;
+	border-collapse: collapse;
+	color: #585c5c;
+	font-size: 16px;
+}
+table tr td{
+	text-align: center;
+	height: 32px;
+	line-height: 32px;
+	border-bottom: 1px solid #d6d6d6;
+}
+.state{
+	display:inline-block;
+	height: 32px;
+	width: 50px;
+	background: url(../images/sign.png) no-repeat 10px -630px;
+}
+.share{
+	display:inline-block;
+	height: 32px;
+	width: 50px;
+	background: url(../images/sign.png) no-repeat 10px 0px;
+}
+.xiugai{
+	display:inline-block;
+	height: 32px;
+	width: 50px;
+	background: url(../images/sign.png) no-repeat 10px -300px;
+}
+.state:hover{
+	background-position:  10px -450px;
+}
+.share:hover{
+	background-position:  10px -150px;
+}
+
+table .pan{
+	background: url(../images/td.png) repeat left top;
+}
+.pan a{
+	display: inline-block;
+	height:30px;
+	float: right;
+    width: 65px;    
+}
+.pan td{
+	padding-right: 30px;
+	height: 25px
+}
+.add{
+	border-right: 1px solid #d6d6d6;
+	background: url(../images/sign.png) no-repeat -85px -57px;
+}
+.del{
+	
+	background: url(../images/sign.png) no-repeat -90px -210px;
+}
+tr:nth-child(2n){
+    background: #f1f1f1;
+}
+.sepre{
+	height: 48px;
+
+}
+.sepre p{
+	float: left;
+	color:  #585c5c;
+
+}
+.sepre div{
+	float: right;
+}
+.sepre div a{
+	display: block;
+	margin-right: 5px;
+	float: left;
+	line-height: 48px;
+	text-decoration: none;
+	color:#585c5c;
+	text-align: center;
+	
+}
+.sepre .num a{
+	margin-top: 13px;
+	line-height: 20px;
+	height: 20px;
+	width: 20px;
+	border: 1px solid #f1f1f1;
+	background: url(../images/btn.png) repeat left top;
+}
+.num a:hover{
+	background: url(../images/blue.png);
+}

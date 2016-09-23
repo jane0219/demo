@@ -1,0 +1,116 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+#box1{
+	margin :50px auto 0px;
+	height: 450px;
+	width: 1200px;
+	/*background: darkseagreen;*/
+	overflow: hidden;
+}
+#list  #li4{
+	margin-right: 0px;
+}
+#list li{
+	list-style:none;
+	float:left;
+	height: 350px;
+	width: 240px;
+	margin-right:50px;
+	/*background: yellowgreen;*/
+	padding-left: 20px;
+	border: 1px solid burlywood;
+}
+#list li em{
+	font-size: 25px;
+	display: inline-block;
+	color: red;
+	margin-bottom: 10px;
+}
+#list li p{
+	margin-bottom: 25px;
+	font-family: "微软雅黑";
+	font-size: 14px;
+}
+#list li a{
+	display: block;
+	margin: 0 auto;
+	height: 30px;
+	width: 120px;
+	border: 1px solid burlywood;
+	color: #000;
+	text-align: center;
+	text-decoration: none;
+	line-height: 30px;
+	color:red;
+}
+.all{
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.allshop{
+	color:indianred;
+	font-size: 23px;
+	text-align: left;
+	font-weight: 600;
+	font-family: "微软雅黑";
+	margin-bottom: 10px;
+
+}
+hr{
+  border:3px solid red;
+  margin: 0 auto;
+}
+.sum{
+	height: 30px;
+	line-height: 30px;
+	color: #000;
+	font-family: arial;
+}
+.all div{
+	float: left;
+	height: 50px;
+   width: 275px;
+   line-height: 50px;
+   text-align: center;
+   background: palegoldenrod;
+/*   overflow: hidden;*/
+}
+#name{
+	text-align: left;
+	padding-left: 20px;
+	width: 355px;
+}
+#box2 div{
+	background: mistyrose;
+	height: 145px;
+	width: 1180px;
+    margin: 0px auto 5px;
+	padding-left: 20px;
+	line-height: 145px;
+}
+#box2 img{
+	float: left;
+	margin-top:5px;
+}
+#box2 span{
+	margin-right:102px;
+	font-size: 20px;
+	color: #000;
+	/*background: red;*/
+}
+#box2  input{
+	height: 20px;
+	width: 40px;
+}
+#box2  .add{
+	margin-right:200px;
+}
+#box2 .sub{
+	margin-left:130px;
+}
+#box2  a{
+	text-decoration: none;
+}
